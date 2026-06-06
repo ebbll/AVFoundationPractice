@@ -53,13 +53,16 @@ final class AudioPlayer: NSObject, ObservableObject, AVAudioPlayerDelegate {
         
         do {
             audioPlayer = try AVAudioPlayer(contentsOf: url)
+            
             audioPlayer?.delegate = self
+            
             audioPlayer?.volume = Float(volume)
             audioPlayer?.numberOfLoops = isLooping ? -1 : 0
             audioPlayer?.pan = Float(pan)
             audioPlayer?.enableRate = true
             audioPlayer?.rate = Float(rate)
             audioPlayer?.isMeteringEnabled = true
+            
             audioPlayer?.prepareToPlay()
             print("재생 준비 완료", fileName)
         } catch {

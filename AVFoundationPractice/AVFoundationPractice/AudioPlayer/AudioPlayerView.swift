@@ -23,8 +23,10 @@ struct AudioPlayerView: View {
     
     var body: some View {
         VStack(spacing: 20) {
+            // MARK: - Title
             Text("AudioPlayer")
             
+            // MARK: - Controls
             HStack {
                 Button {
                     switch audioPlayer.isPlaying {
@@ -48,24 +50,25 @@ struct AudioPlayerView: View {
             }
             
             VStack {
+                // MARK: - Volume
                 Text("Volume: \(Int(audioPlayer.volume * 100))%")
-                
                 Slider(value: $audioPlayer.volume, in: 0...1)
                 
+                // MARK: - Loop
                 Toggle("Loop", isOn: $audioPlayer.isLooping)
                     .toggleStyle(.switch)
                 
+                // MARK: - Pan
                 Text("Pan: \(audioPlayer.pan)")
-                
                 Slider(value: $audioPlayer.pan, in: -1...1, step: 0.01)
                 
+                // MARK: - Rate
                 Text("Rate: \(audioPlayer.rate)")
+                Slider(value: $audioPlayer.rate, in: 0.5...2.0, step: 0.01)
                 
-                Slider(value: $audioPlayer.rate, in: 0.5...2.0, step: 0.001)
-                
+                // MARK: - Time Slider
                 Text("\(formatTime(time: currentTime)) / \(formatTime(time: audioPlayer.duration))")
                     .font(.system(.body, design: .monospaced))
-                
                 Slider(
                     value: $currentTime,
                     in: 0...(audioPlayer.duration == 0 ? 1 : audioPlayer.duration),
@@ -78,10 +81,12 @@ struct AudioPlayerView: View {
                     }
                 )
                 
+                // MARK: - Average Power
                 Text("Avarage: \(averagePower, specifier: "%.1f") dB")
                 ProgressView(value: normalizedPower(power: averagePower))
                     .frame(width: 260)
                 
+                // MARK: - Peak Power
                 Text("Peak: \(peakPower, specifier: "%.1f") dB")
                 ProgressView(value: normalizedPower(power: peakPower))
                     .frame(width: 260)
@@ -90,7 +95,7 @@ struct AudioPlayerView: View {
         }
         .padding()
         .onAppear() {
-            audioPlayer.loadSound(named: "stars2", extension: "wav")
+            audioPlayer.loadSound(named: "stars4", extension: "wav")
         }
         .onReceive(timer) { _ in
             if !isDraggingProgress {
@@ -103,6 +108,7 @@ struct AudioPlayerView: View {
         }
     }
     
+    // MARK: - Time 값을 String으로 포맷팅하는 함수
     private func formatTime(time: TimeInterval) -> String {
         let minutes = Int(time) / 60
         let seconds = Int(time) % 60
@@ -110,6 +116,7 @@ struct AudioPlayerView: View {
         return String(format: "%02d:%02d", minutes, seconds)
     }
     
+    // MARK: - Power 값을 일반화하는 함수
     private func normalizedPower(power: Float) -> Double {
         let minDb: Float = -60
         let clamped = max(power, minDb)

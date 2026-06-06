@@ -10,6 +10,9 @@
 		6234FF792FD161040088DA45 /* stars.wav in Resources */ = {isa = PBXBuildFile; fileRef = 6234FF782FD161040088DA45 /* stars.wav */; };
 		6234FF852FD1A6360088DA45 /* stars2.wav in Resources */ = {isa = PBXBuildFile; fileRef = 6234FF842FD1A6360088DA45 /* stars2.wav */; };
 		6234FF872FD1A6CD0088DA45 /* AVAudioPlayerTutorial.md in Resources */ = {isa = PBXBuildFile; fileRef = 6234FF862FD1A6CD0088DA45 /* AVAudioPlayerTutorial.md */; };
+		6234FF8C2FD2EFA10088DA45 /* stars4.wav in Resources */ = {isa = PBXBuildFile; fileRef = 6234FF8B2FD2EFA10088DA45 /* stars4.wav */; };
+		6234FFB22FD4245C0088DA45 /* stars11.wav in Resources */ = {isa = PBXBuildFile; fileRef = 6234FFB12FD4245C0088DA45 /* stars11.wav */; };
+		6234FFB42FD425C80088DA45 /* stars20.wav in Resources */ = {isa = PBXBuildFile; fileRef = 6234FFB32FD425C80088DA45 /* stars20.wav */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -17,6 +20,9 @@
 		6234FF782FD161040088DA45 /* stars.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = stars.wav; sourceTree = "<group>"; };
 		6234FF842FD1A6360088DA45 /* stars2.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = stars2.wav; sourceTree = "<group>"; };
 		6234FF862FD1A6CD0088DA45 /* AVAudioPlayerTutorial.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = AVAudioPlayerTutorial.md; sourceTree = "<group>"; };
+		6234FF8B2FD2EFA10088DA45 /* stars4.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = stars4.wav; sourceTree = "<group>"; };
+		6234FFB12FD4245C0088DA45 /* stars11.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = stars11.wav; sourceTree = "<group>"; };
+		6234FFB32FD425C80088DA45 /* stars20.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = stars20.wav; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -45,6 +51,9 @@
 				6234FF322FD043710088DA45 /* Products */,
 				6234FF782FD161040088DA45 /* stars.wav */,
 				6234FF842FD1A6360088DA45 /* stars2.wav */,
+				6234FF8B2FD2EFA10088DA45 /* stars4.wav */,
+				6234FFB12FD4245C0088DA45 /* stars11.wav */,
+				6234FFB32FD425C80088DA45 /* stars20.wav */,
 				6234FF862FD1A6CD0088DA45 /* AVAudioPlayerTutorial.md */,
 			);
 			sourceTree = "<group>";
@@ -124,6 +133,9 @@
 				6234FF852FD1A6360088DA45 /* stars2.wav in Resources */,
 				6234FF872FD1A6CD0088DA45 /* AVAudioPlayerTutorial.md in Resources */,
 				6234FF792FD161040088DA45 /* stars.wav in Resources */,
+				6234FF8C2FD2EFA10088DA45 /* stars4.wav in Resources */,
+				6234FFB22FD4245C0088DA45 /* stars11.wav in Resources */,
+				6234FFB42FD425C80088DA45 /* stars20.wav in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

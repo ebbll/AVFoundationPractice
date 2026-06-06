@@ -14,7 +14,11 @@ struct ContentView: View {
             Text("작은별 실험실")
                 .font(.largeTitle)
             
-            AudioPlayerView()
+            HStack {
+                AudioPlayerView()
+                
+                AudioEngineView()
+            }
         }
         .padding()
     }
