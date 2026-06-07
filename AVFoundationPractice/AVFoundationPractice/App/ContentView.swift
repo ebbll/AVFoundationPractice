@@ -15,7 +15,7 @@ struct ContentView: View {
                 .font(.largeTitle)
             
             HStack {
-                AudioPlayerView()
+//                AudioPlayerView()
                 
                 AudioEngineView()
             }
