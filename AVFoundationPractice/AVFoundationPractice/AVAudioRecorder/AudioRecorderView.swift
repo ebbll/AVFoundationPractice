@@ -24,7 +24,7 @@ struct AudioRecorderView: View {
             } label: {
                 Image(systemName: audioRecorder.isRecording ? "stop.circle.fill" : "record.circle")
                     .font(.largeTitle)
-                    .foregroudStyle(audioRecorder.isRecording ? .red : .primary)
+                    .foregroundStyle(audioRecorder.isRecording ? .red : .primary)
             }
             
             Button {

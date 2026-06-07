@@ -8,7 +8,7 @@
 import AVFoundation
 import Combine
 
-final class AudioRecorder: NSObject, ObservableObject, AVAudioRecorderDelegate {
+final class AudioRecorder: NSObject, ObservableObject, AVAudioRecorderDelegate, AVAudioPlayerDelegate {
     private var audioRecorder: AVAudioRecorder?
     private var audioPlayer: AVAudioPlayer?
     
@@ -49,6 +49,7 @@ final class AudioRecorder: NSObject, ObservableObject, AVAudioRecorderDelegate {
     func playRecording() {
         do {
             audioPlayer = try AVAudioPlayer(contentsOf: recordingUrl)
+            audioPlayer?.delegate = self
             audioPlayer?.prepareToPlay()
             audioPlayer?.play()
             isPlaying = true
