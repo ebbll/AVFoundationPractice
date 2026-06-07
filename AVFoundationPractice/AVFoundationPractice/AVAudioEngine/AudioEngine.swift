@@ -263,6 +263,62 @@ final class AudioEngine: ObservableObject {
         }
     }
     
+    func loadRecordedSound(url: URL) {
+        do {
+            let file = try AVAudioFile(forReading: url)
+            
+            guard let buffer = AVAudioPCMBuffer(pcmFormat: file.processingFormat, frameCapacity: AVAudioFrameCount(file.length)) else {
+                print("녹음 파일 버퍼 생성 실패")
+                return
+            }
+            
+            try file.read(into: buffer)
+            
+            secondAudioBuffer = buffer
+            
+            if !isGraphConnected {
+                audioEngine.attach(secondPlayerNode)
+                audioEngine.attach(timePitchEffectNode)
+                audioEngine.attach(eqEffectNode)
+                audioEngine.attach(reverbEffectNode)
+                audioEngine.attach(delayEffectNode)
+                audioEngine.attach(distortionEffectNode)
+                
+                audioEngine.connect(secondPlayerNode, to: eqEffectNode, format: file.processingFormat)
+                audioEngine.connect(eqEffectNode, to: timePitchEffectNode, format: file.processingFormat)
+                audioEngine.connect(timePitchEffectNode, to: reverbEffectNode, format: file.processingFormat)
+                audioEngine.connect(reverbEffectNode, to: delayEffectNode, format: file.processingFormat)
+                audioEngine.connect(delayEffectNode, to: distortionEffectNode, format: file.processingFormat)
+                audioEngine.connect(distortionEffectNode, to: audioEngine.mainMixerNode, format: file.processingFormat)
+                
+                isGraphConnected = true
+            }
+            
+            secondPlayerNode.volume = Float(secondNodeVolume)
+            secondPlayerNode.pan = Float(secondNodePan)
+            
+            timePitchEffectNode.pitch = Float(pitch)
+            timePitchEffectNode.rate = Float(playbackRate)
+            
+            reverbEffectNode.loadFactoryPreset(.largeHall)
+            reverbEffectNode.wetDryMix = Float(reverbWetDryMix)
+            
+            delayEffectNode.delayTime = delayTime
+            delayEffectNode.feedback = Float(delayFeedback)
+            delayEffectNode.wetDryMix = Float(delayWetDryMix)
+            
+            distortionEffectNode.loadFactoryPreset(.drumsLoFi)
+            distortionEffectNode.wetDryMix = Float(distortionWetDryMix)
+            
+            audioEngine.prepare()
+            try audioEngine.start()
+            
+            print("녹음 파일 엔진 로드 완료")
+        } catch {
+            print("녹음 파일 엔진 로드 실패:", error.localizedDescription)
+        }
+    }
+    
     func play() {
         guard let firstAudioBuffer, let secondAudioBuffer else { return }
         
@@ -290,6 +346,34 @@ final class AudioEngine: ObservableObject {
         firstPlayerNode.play()
         secondPlayerNode.play()
         
+        isPlaying = true
+    }
+    
+    func playRecordedSound() {
+        guard let secondAudioBuffer else {
+            return
+        }
+        
+        if !audioEngine.isRunning {
+            do {
+                try audioEngine.start()
+            } catch {
+                print("엔진 시작 실패: ", error.localizedDescription)
+                return
+            }
+        }
+        
+        secondPlayerNode.stop()
+        
+        let loopOption: AVAudioPlayerNodeBufferOptions = isLooping ? .loops : []
+        
+        secondPlayerNode.scheduleBuffer(secondAudioBuffer, at: nil, options: loopOption) { [weak self] in
+            DispatchQueue.main.async {
+                self?.isPlaying = false
+            }
+        }
+        
+        secondPlayerNode.play()
         isPlaying = true
     }
     

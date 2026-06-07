@@ -27,7 +27,8 @@ final class AudioRecorder: NSObject, ObservableObject, AVAudioRecorderDelegate, 
     @Published var averagePower: Float = -160
     @Published var peakPower: Float = -160
     
-    private var recordingUrl: URL {
+    // 녹음 파일 저장 경로
+    var recordingUrl: URL {
 //        FileManager.default.temporaryDirectory.appendingPathComponent("practice-recording.m4a")
         let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
         
