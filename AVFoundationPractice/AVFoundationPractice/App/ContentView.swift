@@ -11,13 +11,15 @@ struct ContentView: View {
 
     var body: some View {
         VStack {
-            Text("작은별 실험실")
+            Text("AVFoundation 실험실")
                 .font(.largeTitle)
             
             HStack {
 //                AudioPlayerView()
                 
-                AudioEngineView()
+//                AudioEngineView()
+                
+                MicrophoneEngineView()
             }
         }
         .padding()

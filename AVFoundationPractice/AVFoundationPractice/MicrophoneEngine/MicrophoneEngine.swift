@@ -15,6 +15,9 @@ final class MicrophoneEngine: ObservableObject {
     // 노드 연결 상태
     private var isGraphConnected = false
     
+    // 마이크 입력 포맷을 효과 노드가 받기 좋은 포맷으로 넘겨주는 중간 믹서
+    private let microphoneMixerNode = AVAudioMixerNode()
+    
     // Effect 노드
     private let reverbEffectNode = AVAudioUnitReverb()
     
@@ -31,10 +34,24 @@ final class MicrophoneEngine: ObservableObject {
             let inputNode = audioEngine.inputNode
             let inputFormat = inputNode.outputFormat(forBus: 0)
             
+            print("Input Format: ", inputFormat)
+            
+            guard inputFormat.sampleRate > 0, inputFormat.channelCount > 0 else {
+                print("마이크 입력 포맷을 가져오지 못함")
+                return
+            }
+            
+            guard let effectFormat = AVAudioFormat(standardFormatWithSampleRate: inputFormat.sampleRate, channels: 2) else {
+                print("마이크 포맷 생성 실패")
+                return
+            }
+            
+            audioEngine.attach(microphoneMixerNode)
             audioEngine.attach(reverbEffectNode)
             
-            audioEngine.connect(inputNode, to: reverbEffectNode, format: inputFormat)
-            audioEngine.connect(reverbEffectNode, to: audioEngine.mainMixerNode, format: inputFormat)
+            audioEngine.connect(inputNode, to: microphoneMixerNode, format: inputFormat)
+            audioEngine.connect(microphoneMixerNode, to: reverbEffectNode, format: effectFormat)
+            audioEngine.connect(reverbEffectNode, to: audioEngine.mainMixerNode, format: effectFormat)
             
             reverbEffectNode.loadFactoryPreset(.largeHall)
             reverbEffectNode.wetDryMix = Float(reverbWetDryMix)
