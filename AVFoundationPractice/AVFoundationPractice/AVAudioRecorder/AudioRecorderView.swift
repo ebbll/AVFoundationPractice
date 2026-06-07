@@ -43,22 +43,30 @@ struct AudioRecorderView: View {
             }
             .disabled(!audioRecorder.hasRecording || audioRecorder.isRecording)
             
+            Button {
+                audioRecorder.deleteRecording()
+            } label: {
+                Image(systemName: "trash.fill")
+                    .font(.largeTitle)
+            }
+            .disabled(!audioRecorder.hasRecording || audioRecorder.isRecording)
+            
             // MARK: - 녹음 타이머
             Text(formatTime(audioRecorder.recordingTime))
                 .font(.system(.title3, design: .monospaced))
             
             // MARK: - 녹음 미터기
             Text("Average: \(audioRecorder.averagePower, specifier: "%.1f") dB")
-            ProgressView(value: audioRecorder.averagePower)
+            ProgressView(value: normalizedPower(audioRecorder.averagePower))
                 .frame(width: 260)
             
-            Text("Peak: \(audioRecorder.averagePower, specifier: "%.1f") dB")
-            ProgressView(value: audioRecorder.peakPower)
+            Text("Peak: \(audioRecorder.peakPower, specifier: "%.1f") dB")
+            ProgressView(value: normalizedPower(audioRecorder.peakPower))
                 .frame(width: 260)
         }
         .onReceive(timer) { _ in
             if audioRecorder.isRecording {
-                audioRecorder.updateRecoringTime()
+                audioRecorder.updateRecordingTime()
                 audioRecorder.updateMeters()
             }
         }
@@ -70,5 +78,14 @@ struct AudioRecorderView: View {
         let seconds = Int(time) % 60
         
         return String(format: "%02d:%02d", minutes, seconds)
+    }
+    
+    private func normalizedPower(_ power: Float) -> Double {
+        let minDb: Float = -60
+        let maxDb: Float = 0
+        
+        let clampedPower = min(max(power, minDb), maxDb)
+        
+        return Double((clampedPower - minDb) / (maxDb - minDb))
     }
 }

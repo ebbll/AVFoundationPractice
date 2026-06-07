@@ -41,8 +41,11 @@ final class AudioRecorder: NSObject, ObservableObject, AVAudioRecorderDelegate, 
         
         do {
             audioRecorder = try AVAudioRecorder(url: recordingUrl, settings: settings)
+            
             audioRecorder?.delegate = self
+            
             audioRecorder?.isMeteringEnabled = true
+            
             audioRecorder?.prepareToRecord()
             audioRecorder?.record()
             recordingTime = 0
@@ -54,13 +57,17 @@ final class AudioRecorder: NSObject, ObservableObject, AVAudioRecorderDelegate, 
     }
     
     func stopRecording() {
+        // 레코더 정리
         audioRecorder?.stop()
         audioRecorder = nil
+        
+        // 상태값 정리
         isRecording = false
         hasRecording = FileManager.default.fileExists(atPath: recordingUrl.path)
         recordingTime = 0
         averagePower = -160
         peakPower = -160
+        
         print("녹음 정지")
     }
     
@@ -72,7 +79,9 @@ final class AudioRecorder: NSObject, ObservableObject, AVAudioRecorderDelegate, 
         
         do {
             audioPlayer = try AVAudioPlayer(contentsOf: recordingUrl)
+            
             audioPlayer?.delegate = self
+            
             audioPlayer?.prepareToPlay()
             audioPlayer?.play()
             isPlaying = true
@@ -82,9 +91,30 @@ final class AudioRecorder: NSObject, ObservableObject, AVAudioRecorderDelegate, 
         }
     }
     
+    func deleteRecording() {
+        stopPlaying()
+        
+        guard FileManager.default.fileExists(atPath: recordingUrl.path) else {
+            hasRecording = false
+            print("삭제할 녹음 파일이 없음")
+            return
+        }
+        
+        do {
+            try FileManager.default.removeItem(at: recordingUrl)
+            hasRecording = false
+            print("녹음 파일 삭제 완료")
+        } catch {
+            print("녹음 파일 삭제 실패: ", error.localizedDescription)
+        }
+    }
+    
     func stopPlaying() {
+        // 플레이어 정리
         audioPlayer?.stop()
         audioPlayer = nil
+        
+        // 상태값 정리
         isPlaying = false
         print("녹음 파일 정지")
     }
@@ -94,7 +124,7 @@ final class AudioRecorder: NSObject, ObservableObject, AVAudioRecorderDelegate, 
         print("녹음 파일 재생 완료")
     }
     
-    func updateRecoringTime() {
+    func updateRecordingTime() {
         recordingTime = audioRecorder?.currentTime ?? 0
     }
     
