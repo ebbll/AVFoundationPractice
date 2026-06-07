@@ -28,7 +28,10 @@ final class AudioRecorder: NSObject, ObservableObject, AVAudioRecorderDelegate, 
     @Published var peakPower: Float = -160
     
     private var recordingUrl: URL {
-        FileManager.default.temporaryDirectory.appendingPathComponent("practice-recording.m4a")
+//        FileManager.default.temporaryDirectory.appendingPathComponent("practice-recording.m4a")
+        let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        
+        return documentsDirectory.appendingPathComponent("practice-recording.m4a")
     }
     
     func startRecording() {
@@ -107,6 +110,10 @@ final class AudioRecorder: NSObject, ObservableObject, AVAudioRecorderDelegate, 
         } catch {
             print("녹음 파일 삭제 실패: ", error.localizedDescription)
         }
+    }
+    
+    func checkRecordingFile() {
+        hasRecording = FileManager.default.fileExists(atPath: recordingUrl.path)
     }
     
     func stopPlaying() {

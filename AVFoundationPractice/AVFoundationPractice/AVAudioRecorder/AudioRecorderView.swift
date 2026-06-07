@@ -64,6 +64,9 @@ struct AudioRecorderView: View {
             ProgressView(value: normalizedPower(audioRecorder.peakPower))
                 .frame(width: 260)
         }
+        .onAppear {
+            audioRecorder.checkRecordingFile()
+        }
         .onReceive(timer) { _ in
             if audioRecorder.isRecording {
                 audioRecorder.updateRecordingTime()
