@@ -12,6 +12,9 @@ final class AudioEngine: ObservableObject {
     // 오디오 엔진
     private let audioEngine = AVAudioEngine()
     
+    // 노드 연결 상태
+    private var isGraphConnected = false
+    
     // 오디오 파일
     private var firstAudioFile: AVAudioFile?
     private var secondAudioFile: AVAudioFile?
@@ -30,9 +33,6 @@ final class AudioEngine: ObservableObject {
     private let reverbEffectNode = AVAudioUnitReverb()
     private let delayEffectNode = AVAudioUnitDelay()
     private let distortionEffectNode = AVAudioUnitDistortion()
-    
-    // 노드 사이 연결
-    private var isGraphConnected = false
     
     @Published var isPlaying: Bool = false
     
