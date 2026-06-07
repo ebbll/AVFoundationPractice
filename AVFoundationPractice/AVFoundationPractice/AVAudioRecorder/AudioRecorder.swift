@@ -14,6 +14,7 @@ final class AudioRecorder: NSObject, ObservableObject, AVAudioRecorderDelegate, 
     
     @Published var isRecording: Bool = false
     @Published var isPlaying: Bool = false
+    @Published var hasRecording: Bool = false
     
     private var recordingUrl: URL {
         FileManager.default.temporaryDirectory.appendingPathComponent("practice-recording.m4a")
@@ -43,10 +44,16 @@ final class AudioRecorder: NSObject, ObservableObject, AVAudioRecorderDelegate, 
         audioRecorder?.stop()
         audioRecorder = nil
         isRecording = false
+        hasRecording = FileManager.default.fileExists(atPath: recordingUrl.path)
         print("녹음 정지")
     }
     
     func playRecording() {
+        guard hasRecording else {
+            print("재생할 녹음 파일이 없음")
+            return
+        }
+        
         do {
             audioPlayer = try AVAudioPlayer(contentsOf: recordingUrl)
             audioPlayer?.delegate = self
@@ -63,9 +70,11 @@ final class AudioRecorder: NSObject, ObservableObject, AVAudioRecorderDelegate, 
         audioPlayer?.stop()
         audioPlayer = nil
         isPlaying = false
+        print("녹음 파일 정지")
     }
     
     func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
         isPlaying = false
+        print("녹음 파일 재생 완료")
     }
 }

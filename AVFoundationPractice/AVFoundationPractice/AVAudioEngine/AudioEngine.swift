@@ -89,12 +89,12 @@ final class AudioEngine: ObservableObject {
     }
     @Published var midGain: Double = 0 {
         didSet {
-            eqEffectNode.bands[1].gain = Float(lowGain)
+            eqEffectNode.bands[1].gain = Float(midGain)
         }
     }
     @Published var highGain: Double = 0 {
         didSet {
-            eqEffectNode.bands[2].gain = Float(lowGain)
+            eqEffectNode.bands[2].gain = Float(highGain)
         }
     }
     

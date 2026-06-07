@@ -38,6 +38,7 @@ struct AudioRecorderView: View {
                 Image(systemName: audioRecorder.isPlaying ? "stop.fill" : "play.fill")
                     .font(.largeTitle)
             }
+            .disabled(!audioRecorder.hasRecording || audioRecorder.isRecording)
         }
         .padding()
     }

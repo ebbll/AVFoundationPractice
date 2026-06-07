@@ -101,7 +101,7 @@ struct AudioEngineView: View {
                 
                 // MARK: - Distortion Effect Node (wetDryMix)
                 Text("Distortion Mix: \(Int(audioEnginePlayer.distortionWetDryMix))%")
-                Slider(value: $audioEnginePlayer.distortionWetDryMix, in: 0...1)
+                Slider(value: $audioEnginePlayer.distortionWetDryMix, in: 0...100)
                     .frame(width: 260)
                 
                 // MARK: - Bypass
