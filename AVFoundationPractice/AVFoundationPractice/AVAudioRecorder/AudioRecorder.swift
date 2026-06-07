@@ -9,12 +9,23 @@ import AVFoundation
 import Combine
 
 final class AudioRecorder: NSObject, ObservableObject, AVAudioRecorderDelegate, AVAudioPlayerDelegate {
+    // 레코더
     private var audioRecorder: AVAudioRecorder?
+    
+    // 플레이어
     private var audioPlayer: AVAudioPlayer?
     
+    // 레코더 - 녹음 상태 관리
     @Published var isRecording: Bool = false
-    @Published var isPlaying: Bool = false
     @Published var hasRecording: Bool = false
+    @Published var recordingTime: TimeInterval = 0
+    
+    // 플레이어 - 재생 상태 관리
+    @Published var isPlaying: Bool = false
+    
+    // 녹음 중 소리 레벨 측정 미터링
+    @Published var averagePower: Float = -160
+    @Published var peakPower: Float = -160
     
     private var recordingUrl: URL {
         FileManager.default.temporaryDirectory.appendingPathComponent("practice-recording.m4a")
@@ -31,8 +42,10 @@ final class AudioRecorder: NSObject, ObservableObject, AVAudioRecorderDelegate, 
         do {
             audioRecorder = try AVAudioRecorder(url: recordingUrl, settings: settings)
             audioRecorder?.delegate = self
+            audioRecorder?.isMeteringEnabled = true
             audioRecorder?.prepareToRecord()
             audioRecorder?.record()
+            recordingTime = 0
             isRecording = true
             print("녹음 시작: ", recordingUrl)
         } catch {
@@ -45,6 +58,9 @@ final class AudioRecorder: NSObject, ObservableObject, AVAudioRecorderDelegate, 
         audioRecorder = nil
         isRecording = false
         hasRecording = FileManager.default.fileExists(atPath: recordingUrl.path)
+        recordingTime = 0
+        averagePower = -160
+        peakPower = -160
         print("녹음 정지")
     }
     
@@ -76,5 +92,15 @@ final class AudioRecorder: NSObject, ObservableObject, AVAudioRecorderDelegate, 
     func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
         isPlaying = false
         print("녹음 파일 재생 완료")
+    }
+    
+    func updateRecoringTime() {
+        recordingTime = audioRecorder?.currentTime ?? 0
+    }
+    
+    func updateMeters() {
+        audioRecorder?.updateMeters()
+        averagePower = audioRecorder?.averagePower(forChannel: 0) ?? -160
+        peakPower = audioRecorder?.peakPower(forChannel: 0) ?? -160
     }
 }
