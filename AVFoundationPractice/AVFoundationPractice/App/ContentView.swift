@@ -21,7 +21,7 @@ struct ContentView: View {
                 
 //                MicrophoneEngineView()
                 
-                AudioRecorderView()
+                RecordedAudioLabView()
             }
         }
         .padding()

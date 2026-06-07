@@ -294,11 +294,33 @@ final class AudioEngine: ObservableObject {
                 isGraphConnected = true
             }
             
+            audioEngine.mainMixerNode.outputVolume = Float(engineVolume)
             secondPlayerNode.volume = Float(secondNodeVolume)
             secondPlayerNode.pan = Float(secondNodePan)
             
             timePitchEffectNode.pitch = Float(pitch)
             timePitchEffectNode.rate = Float(playbackRate)
+            
+            let lowBand = eqEffectNode.bands[0]
+            lowBand.filterType = .parametric
+            lowBand.frequency = 120
+            lowBand.bandwidth = 1.0
+            lowBand.gain = Float(lowGain)
+            lowBand.bypass = false
+
+            let midBand = eqEffectNode.bands[1]
+            midBand.filterType = .parametric
+            midBand.frequency = 1000
+            midBand.bandwidth = 1.0
+            midBand.gain = Float(midGain)
+            midBand.bypass = false
+
+            let highBand = eqEffectNode.bands[2]
+            highBand.filterType = .parametric
+            highBand.frequency = 5000
+            highBand.bandwidth = 1.0
+            highBand.gain = Float(highGain)
+            highBand.bypass = false
             
             reverbEffectNode.loadFactoryPreset(.largeHall)
             reverbEffectNode.wetDryMix = Float(reverbWetDryMix)
@@ -309,6 +331,10 @@ final class AudioEngine: ObservableObject {
             
             distortionEffectNode.loadFactoryPreset(.drumsLoFi)
             distortionEffectNode.wetDryMix = Float(distortionWetDryMix)
+            
+            reverbEffectNode.bypass = !isReverbOn
+            delayEffectNode.bypass = !isDelayOn
+            distortionEffectNode.bypass = !isDistortionOn
             
             audioEngine.prepare()
             try audioEngine.start()
