@@ -13,16 +13,6 @@
 		6234FF8C2FD2EFA10088DA45 /* stars4.wav in Resources */ = {isa = PBXBuildFile; fileRef = 6234FF8B2FD2EFA10088DA45 /* stars4.wav */; };
 		6234FFB22FD4245C0088DA45 /* stars11.wav in Resources */ = {isa = PBXBuildFile; fileRef = 6234FFB12FD4245C0088DA45 /* stars11.wav */; };
 		6234FFB42FD425C80088DA45 /* stars20.wav in Resources */ = {isa = PBXBuildFile; fileRef = 6234FFB32FD425C80088DA45 /* stars20.wav */; };
-		6234FFC82FD565470088DA45 /* ㅔㅔㅔㅔㅔ.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 6234FFC62FD565470088DA45 /* ㅔㅔㅔㅔㅔ.mp3 */; };
-		6234FFC92FD565470088DA45 /* 여좌.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 6234FFC12FD565470088DA45 /* 여좌.mp3 */; };
-		6234FFCA2FD565470088DA45 /* 인간.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 6234FFC42FD565470088DA45 /* 인간.mp3 */; };
-		6234FFCB2FD565470088DA45 /* 울퉁불퉁.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 6234FFC32FD565470088DA45 /* 울퉁불퉁.mp3 */; };
-		6234FFCC2FD565470088DA45 /* 여자!.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 6234FFC02FD565470088DA45 /* 여자!.mp3 */; };
-		6234FFCD2FD565470088DA45 /* 옵ㅂ.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 6234FFC22FD565470088DA45 /* 옵ㅂ.mp3 */; };
-		6234FFCE2FD565470088DA45 /* 낮에는 따사로운.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 6234FFBD2FD565470088DA45 /* 낮에는 따사로운.mp3 */; };
-		6234FFCF2FD565470088DA45 /* 띠엠 거얼.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 6234FFBE2FD565470088DA45 /* 띠엠 거얼.mp3 */; };
-		6234FFD02FD565470088DA45 /* 인간적인.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 6234FFC52FD565470088DA45 /* 인간적인.mp3 */; };
-		6234FFD12FD565470088DA45 /* 싸나에.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 6234FFBF2FD565470088DA45 /* 싸나에.mp3 */; };
 		6234FFD32FD565550088DA45 /* stars30.wav in Resources */ = {isa = PBXBuildFile; fileRef = 6234FFD22FD565550088DA45 /* stars30.wav */; };
 /* End PBXBuildFile section */
 
@@ -34,16 +24,6 @@
 		6234FF8B2FD2EFA10088DA45 /* stars4.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = stars4.wav; sourceTree = "<group>"; };
 		6234FFB12FD4245C0088DA45 /* stars11.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = stars11.wav; sourceTree = "<group>"; };
 		6234FFB32FD425C80088DA45 /* stars20.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = stars20.wav; sourceTree = "<group>"; };
-		6234FFBD2FD565470088DA45 /* 낮에는 따사로운.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "낮에는 따사로운.mp3"; sourceTree = "<group>"; };
-		6234FFBE2FD565470088DA45 /* 띠엠 거얼.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "띠엠 거얼.mp3"; sourceTree = "<group>"; };
-		6234FFBF2FD565470088DA45 /* 싸나에.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "싸나에.mp3"; sourceTree = "<group>"; };
-		6234FFC02FD565470088DA45 /* 여자!.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "여자!.mp3"; sourceTree = "<group>"; };
-		6234FFC12FD565470088DA45 /* 여좌.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "여좌.mp3"; sourceTree = "<group>"; };
-		6234FFC22FD565470088DA45 /* 옵ㅂ.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "옵ㅂ.mp3"; sourceTree = "<group>"; };
-		6234FFC32FD565470088DA45 /* 울퉁불퉁.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "울퉁불퉁.mp3"; sourceTree = "<group>"; };
-		6234FFC42FD565470088DA45 /* 인간.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "인간.mp3"; sourceTree = "<group>"; };
-		6234FFC52FD565470088DA45 /* 인간적인.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "인간적인.mp3"; sourceTree = "<group>"; };
-		6234FFC62FD565470088DA45 /* ㅔㅔㅔㅔㅔ.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "ㅔㅔㅔㅔㅔ.mp3"; sourceTree = "<group>"; };
 		6234FFD22FD565550088DA45 /* stars30.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = stars30.wav; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -77,7 +57,6 @@
 				6234FFB12FD4245C0088DA45 /* stars11.wav */,
 				6234FFB32FD425C80088DA45 /* stars20.wav */,
 				6234FFD22FD565550088DA45 /* stars30.wav */,
-				6234FFC72FD565470088DA45 /* 띠엠 거얼 */,
 				6234FF862FD1A6CD0088DA45 /* AVAudioPlayerTutorial.md */,
 			);
 			sourceTree = "<group>";
@@ -88,23 +67,6 @@
 				6234FF312FD043710088DA45 /* AVFoundationPractice.app */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		6234FFC72FD565470088DA45 /* 띠엠 거얼 */ = {
-			isa = PBXGroup;
-			children = (
-				6234FFBD2FD565470088DA45 /* 낮에는 따사로운.mp3 */,
-				6234FFBE2FD565470088DA45 /* 띠엠 거얼.mp3 */,
-				6234FFBF2FD565470088DA45 /* 싸나에.mp3 */,
-				6234FFC02FD565470088DA45 /* 여자!.mp3 */,
-				6234FFC12FD565470088DA45 /* 여좌.mp3 */,
-				6234FFC22FD565470088DA45 /* 옵ㅂ.mp3 */,
-				6234FFC32FD565470088DA45 /* 울퉁불퉁.mp3 */,
-				6234FFC42FD565470088DA45 /* 인간.mp3 */,
-				6234FFC52FD565470088DA45 /* 인간적인.mp3 */,
-				6234FFC62FD565470088DA45 /* ㅔㅔㅔㅔㅔ.mp3 */,
-			);
-			path = "띠엠 거얼";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -172,17 +134,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6234FF852FD1A6360088DA45 /* stars2.wav in Resources */,
-				6234FFC82FD565470088DA45 /* ㅔㅔㅔㅔㅔ.mp3 in Resources */,
-				6234FFC92FD565470088DA45 /* 여좌.mp3 in Resources */,
-				6234FFCA2FD565470088DA45 /* 인간.mp3 in Resources */,
-				6234FFCB2FD565470088DA45 /* 울퉁불퉁.mp3 in Resources */,
-				6234FFCC2FD565470088DA45 /* 여자!.mp3 in Resources */,
-				6234FFCD2FD565470088DA45 /* 옵ㅂ.mp3 in Resources */,
-				6234FFCE2FD565470088DA45 /* 낮에는 따사로운.mp3 in Resources */,
-				6234FFCF2FD565470088DA45 /* 띠엠 거얼.mp3 in Resources */,
-				6234FFD02FD565470088DA45 /* 인간적인.mp3 in Resources */,
 				6234FFD32FD565550088DA45 /* stars30.wav in Resources */,
-				6234FFD12FD565470088DA45 /* 싸나에.mp3 in Resources */,
 				6234FF872FD1A6CD0088DA45 /* AVAudioPlayerTutorial.md in Resources */,
 				6234FF792FD161040088DA45 /* stars.wav in Resources */,
 				6234FF8C2FD2EFA10088DA45 /* stars4.wav in Resources */,
