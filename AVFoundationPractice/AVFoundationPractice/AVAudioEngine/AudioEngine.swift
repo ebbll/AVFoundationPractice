@@ -420,6 +420,7 @@ final class AudioEngine: ObservableObject {
         }
         
         secondPlayerNode.play()
+        
         isPlaying = true
     }
     
@@ -432,6 +433,7 @@ final class AudioEngine: ObservableObject {
     
     func clearRecordedSound() {
         stop()
+        
         secondAudioBuffer = nil
         hasRecordedSound = false
     }
