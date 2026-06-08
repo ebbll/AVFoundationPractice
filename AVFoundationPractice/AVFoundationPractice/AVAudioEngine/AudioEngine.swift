@@ -26,6 +26,7 @@ final class AudioEngine: ObservableObject {
     // Player 노드
     private let firstPlayerNode = AVAudioPlayerNode()
     private let secondPlayerNode = AVAudioPlayerNode()
+    private let recordedAudioMixerNode = AVAudioMixerNode()
     
     // Effect 노드
     private let timePitchEffectNode = AVAudioUnitTimePitch()
@@ -37,6 +38,8 @@ final class AudioEngine: ObservableObject {
     @Published var isPlaying: Bool = false
     
     @Published var isLooping: Bool = false
+    
+    @Published var hasRecordedSound: Bool = false
     
     // 엔진 전체 볼륨
     @Published var engineVolume: Double = 1.0 {
@@ -161,7 +164,9 @@ final class AudioEngine: ObservableObject {
             secondAudioFile = secondFile
             
             // 버퍼 만들기 (loop 설정을 위해)
-            guard let firstBuffer = AVAudioPCMBuffer(pcmFormat: firstFile.processingFormat, frameCapacity: AVAudioFrameCount(firstFile.length)), let secondBuffer = AVAudioPCMBuffer(pcmFormat: secondFile.processingFormat, frameCapacity: AVAudioFrameCount(secondFile.length)) else {
+            guard let firstBuffer = AVAudioPCMBuffer(pcmFormat: firstFile.processingFormat, frameCapacity: AVAudioFrameCount(firstFile.length)),
+                  let secondBuffer = AVAudioPCMBuffer(pcmFormat: secondFile.processingFormat, frameCapacity: AVAudioFrameCount(secondFile.length))
+            else {
                 print("버퍼 생성 실패")
                 return
             }
@@ -263,13 +268,20 @@ final class AudioEngine: ObservableObject {
         }
     }
     
-    func loadRecordedSound(url: URL) {
+    func loadRecordedSound(url: URL) -> Bool {
         do {
             let file = try AVAudioFile(forReading: url)
             
             guard let buffer = AVAudioPCMBuffer(pcmFormat: file.processingFormat, frameCapacity: AVAudioFrameCount(file.length)) else {
                 print("녹음 파일 버퍼 생성 실패")
-                return
+                hasRecordedSound = false
+                return false
+            }
+            
+            guard let effectFormat = AVAudioFormat(standardFormatWithSampleRate: file.processingFormat.sampleRate, channels: 2) else {
+                print("녹음 파일 이펙트 포맷 생성 실패")
+                hasRecordedSound = false
+                return false
             }
             
             try file.read(into: buffer)
@@ -278,23 +290,26 @@ final class AudioEngine: ObservableObject {
             
             if !isGraphConnected {
                 audioEngine.attach(secondPlayerNode)
+                audioEngine.attach(recordedAudioMixerNode)
                 audioEngine.attach(timePitchEffectNode)
                 audioEngine.attach(eqEffectNode)
                 audioEngine.attach(reverbEffectNode)
                 audioEngine.attach(delayEffectNode)
                 audioEngine.attach(distortionEffectNode)
                 
-                audioEngine.connect(secondPlayerNode, to: eqEffectNode, format: file.processingFormat)
-                audioEngine.connect(eqEffectNode, to: timePitchEffectNode, format: file.processingFormat)
-                audioEngine.connect(timePitchEffectNode, to: reverbEffectNode, format: file.processingFormat)
-                audioEngine.connect(reverbEffectNode, to: delayEffectNode, format: file.processingFormat)
-                audioEngine.connect(delayEffectNode, to: distortionEffectNode, format: file.processingFormat)
-                audioEngine.connect(distortionEffectNode, to: audioEngine.mainMixerNode, format: file.processingFormat)
+                audioEngine.connect(secondPlayerNode, to: recordedAudioMixerNode, format: file.processingFormat)
+                audioEngine.connect(recordedAudioMixerNode, to: eqEffectNode, format: effectFormat)
+                audioEngine.connect(eqEffectNode, to: timePitchEffectNode, format: effectFormat)
+                audioEngine.connect(timePitchEffectNode, to: reverbEffectNode, format: effectFormat)
+                audioEngine.connect(reverbEffectNode, to: delayEffectNode, format: effectFormat)
+                audioEngine.connect(delayEffectNode, to: distortionEffectNode, format: effectFormat)
+                audioEngine.connect(distortionEffectNode, to: audioEngine.mainMixerNode, format: effectFormat)
                 
                 isGraphConnected = true
             }
             
             audioEngine.mainMixerNode.outputVolume = Float(engineVolume)
+
             secondPlayerNode.volume = Float(secondNodeVolume)
             secondPlayerNode.pan = Float(secondNodePan)
             
@@ -339,9 +354,13 @@ final class AudioEngine: ObservableObject {
             audioEngine.prepare()
             try audioEngine.start()
             
+            hasRecordedSound = true
             print("녹음 파일 엔진 로드 완료")
+            return true
         } catch {
+            hasRecordedSound = false
             print("녹음 파일 엔진 로드 실패:", error.localizedDescription)
+            return false
         }
     }
     
@@ -362,7 +381,7 @@ final class AudioEngine: ObservableObject {
         
         let loopOption: AVAudioPlayerNodeBufferOptions = isLooping ? .loops : []
         
-        firstPlayerNode.scheduleBuffer(firstAudioBuffer, at: nil, options: loopOption)
+        firstPlayerNode.scheduleBuffer(firstAudioBuffer, at: nil, options: loopOption, completionHandler: nil)
         secondPlayerNode.scheduleBuffer(secondAudioBuffer, at: nil, options: loopOption) {  [weak self] in
             DispatchQueue.main.async {
                 self?.isPlaying = false
@@ -376,7 +395,8 @@ final class AudioEngine: ObservableObject {
     }
     
     func playRecordedSound() {
-        guard let secondAudioBuffer else {
+        guard hasRecordedSound, let secondAudioBuffer else {
+            print("엔진에 로드된 녹음 파일이 없음")
             return
         }
         
@@ -408,5 +428,11 @@ final class AudioEngine: ObservableObject {
         secondPlayerNode.stop()
         
         isPlaying = false
+    }
+    
+    func clearRecordedSound() {
+        stop()
+        secondAudioBuffer = nil
+        hasRecordedSound = false
     }
 }

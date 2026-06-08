@@ -12,8 +12,6 @@ struct RecordedAudioLabView: View {
     @StateObject private var audioRecorder = AudioRecorder()
     @StateObject private var audioEngine = AudioEngine()
     
-    @State private var isLoadedIntoEngine = false
-    
     private let timer = Timer.publish(every: 0.2, on: .main, in: .common).autoconnect()
     
     var body: some View {
@@ -28,8 +26,7 @@ struct RecordedAudioLabView: View {
                     case true:
                         audioRecorder.stopRecording()
                     case false:
-                        audioEngine.stop()
-                        isLoadedIntoEngine = false
+                        audioEngine.clearRecordedSound()
                         audioRecorder.startRecording()
                     }
                 } label: {
@@ -70,8 +67,7 @@ struct RecordedAudioLabView: View {
                     
                     Button {
                         audioRecorder.deleteRecording()
-                        audioEngine.stop()
-                        isLoadedIntoEngine = false
+                        audioEngine.clearRecordedSound()
                     } label: {
                         Image(systemName: "trash.fill")
                             .font(.largeTitle)
@@ -86,13 +82,15 @@ struct RecordedAudioLabView: View {
                 
                 Button {
                     audioRecorder.stopPlaying()
-                    audioEngine.loadRecordedSound(url: audioRecorder.recordingUrl)
-                    isLoadedIntoEngine = true
+                    _ = audioEngine.loadRecordedSound(url: audioRecorder.recordingUrl)
                 } label: {
                     Image(systemName: "waveform.badge.plus")
                         .font(.largeTitle)
                 }
                 .disabled(!audioRecorder.hasRecording || audioRecorder.isRecording)
+                
+                Text(audioEngine.hasRecordedSound ? "Loaded Into Engine" : "Not Loaded")
+                    .font(.caption)
                 
                 Button {
                     switch audioEngine.isPlaying {
@@ -105,7 +103,7 @@ struct RecordedAudioLabView: View {
                     Image(systemName: audioEngine.isPlaying ? "stop.fill" : "play.fill")
                         .font(.largeTitle)
                 }
-                .disabled(!isLoadedIntoEngine || audioRecorder.isRecording)
+                .disabled(!audioEngine.hasRecordedSound || audioRecorder.isRecording)
                 
                 Toggle("Loop", isOn: $audioEngine.isLooping)
                     .toggleStyle(.switch)
